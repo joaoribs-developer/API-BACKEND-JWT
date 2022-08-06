@@ -19,6 +19,8 @@ import javax.management.RuntimeErrorException
 @RequestMapping("api/login")//rota que estará o login
 class LoginController() {
 
+    @GetMapping
+    fun sayHello() = "Hello World!"
     @PostMapping
     fun loginUser(@RequestBody users: Users): ResponseEntity<Any>{
         try {
@@ -39,7 +41,7 @@ class LoginController() {
             return ResponseEntity(response, HttpStatus.OK)
         }
         catch (e: Exception){
-            return ResponseEntity(ErrorLogin(HttpStatus.INTERNAL_SERVER_ERROR, "Erro de autenticação, tente novamente"),
+            return ResponseEntity(ErrorLogin(HttpStatus.INTERNAL_SERVER_ERROR, "Erro de serviço, tente novamente"),
                 HttpStatus.INTERNAL_SERVER_ERROR)
 
         }

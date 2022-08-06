@@ -13,8 +13,8 @@ class JWTAutorization(authenticationManeger : AuthenticationManager, val jwtUtil
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, chain: FilterChain) {
         val autorization = request.getHeader(authorization)
 
-        if (autorization!=null && authorization.startsWith(bearer)){
-            val autorizado = getAuthentication(autorization)
-        }
+//        if (autorization!=null && authorization.startsWith(bearer)){
+//            val autorizado = getAuthentication(autorization)
+//        }
     }
 }
