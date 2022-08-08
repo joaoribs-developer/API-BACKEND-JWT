@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController
 import javax.management.RuntimeErrorException
 
 @RestController//dizendo pro spring que este é um controller
-@RequestMapping("api/login")//rota que estará o login
+@RequestMapping("/api/login")//rota que estará o login
 class LoginController() {
 
     @GetMapping

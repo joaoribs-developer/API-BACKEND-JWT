@@ -11,6 +11,7 @@ data class Users(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Int,
+    val nome: String,
     val login :String,
     val senha :String
     )
