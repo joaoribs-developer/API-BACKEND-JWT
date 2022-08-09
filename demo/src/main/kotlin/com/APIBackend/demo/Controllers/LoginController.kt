@@ -21,9 +21,6 @@ import javax.management.RuntimeErrorException
 @RestController//dizendo pro spring que este é um controller
 @RequestMapping("/api/login")//rota que estará o login
 class LoginController(val userRepository: UserRepository) {
-
-    @GetMapping
-    fun sayHello() = this.userRepository.findAll()
     @PostMapping
     fun loginUser(@RequestBody dto: LoginDTO): ResponseEntity<Any>{
         try {
@@ -37,19 +34,9 @@ class LoginController(val userRepository: UserRepository) {
                 ,HttpStatus.INTERNAL_SERVER_ERROR)
             val token = JWTUtils().tokenGenerated(users.id.toString())
             val response = LoginResponse(users.nome,users.login, token)
-
-
-
-
-
             return ResponseEntity(response, HttpStatus.OK)
         }
         catch (e: Exception){
             return ResponseEntity(ErrorLogin(HttpStatus.INTERNAL_SERVER_ERROR, "Erro de serviço, tente novamente"),
                 HttpStatus.INTERNAL_SERVER_ERROR)
-
-        }
-
-
-    }
-}
+        }}}
