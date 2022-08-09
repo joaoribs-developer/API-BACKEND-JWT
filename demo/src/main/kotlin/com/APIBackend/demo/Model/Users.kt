@@ -1,6 +1,8 @@
 package com.APIBackend.demo.Model
 
 import com.fasterxml.jackson.annotation.JsonBackReference
+import org.springframework.context.annotation.Bean
+import org.springframework.stereotype.Component
 import javax.persistence.*
 
 
