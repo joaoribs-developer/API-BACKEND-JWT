@@ -17,8 +17,6 @@ import javax.management.RuntimeErrorException
 @RestController
 @RequestMapping("api/cadastro")
 class UsersController(val userRepository: UserRepository) {
-    @GetMapping
-    fun getUser() = this.userRepository.findAll()
 
     @PostMapping
     fun addUser(@RequestBody users: Users): ResponseEntity<Any>{

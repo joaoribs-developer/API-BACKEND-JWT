@@ -1,9 +1,7 @@
 package com.APIBackend.demo.Model
 
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
+import com.fasterxml.jackson.annotation.JsonBackReference
+import javax.persistence.*
 
 
 @Entity
@@ -13,5 +11,8 @@ data class Users(
     val id: Int,
     val nome: String,
     val login :String,
-    var senha :String
+    var senha :String,
+    @JsonBackReference
+    @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
+    var tarefa: List<Tarefa?> = emptyList()
     )

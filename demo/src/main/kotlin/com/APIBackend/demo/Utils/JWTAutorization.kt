@@ -1,7 +1,9 @@
 package com.APIBackend.demo.Utils
 
 import com.APIBackend.demo.Model.Users
+import com.APIBackend.demo.Repository.UserRepository
 import org.apache.tomcat.websocket.BasicAuthenticator
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
@@ -11,7 +13,7 @@ import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-class JWTAutorization(authenticationManeger : AuthenticationManager, val jwtUtils: JWTUtils)
+class JWTAutorization(authenticationManeger : AuthenticationManager, val jwtUtils: JWTUtils, val userRepository: UserRepository)
     : BasicAuthenticationFilter(authenticationManeger) {//filter e validador de cada token
 
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, chain: FilterChain) {
@@ -28,7 +30,8 @@ class JWTAutorization(authenticationManeger : AuthenticationManager, val jwtUtil
     val token = autorizacao.substring(7)
         val idUser = jwtUtils.getUserID(token)
     if(!idUser.isNullOrEmpty() && !idUser.isNullOrBlank()){
-    val user = Users(idUser.toInt(), "joão vitor","joao@teste.com", "joaosenha")
+    val user = userRepository.findByIdOrNull(idUser.toInt())
+        ?: throw UsernameNotFoundException("Usuário não encontrado")
     val userIMPL = UserDetails(user)
     return UsernamePasswordAuthenticationToken(userIMPL, null, userIMPL.authorities)
     }
