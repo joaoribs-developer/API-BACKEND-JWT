@@ -5,7 +5,6 @@ import com.APIBackend.demo.Model.DTO.SucessDTO
 import com.APIBackend.demo.Model.Tarefa
 import com.APIBackend.demo.Repository.TarefaRepository
 import com.APIBackend.demo.Repository.UserRepository
-import org.springframework.context.annotation.Bean
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -29,13 +28,15 @@ class TarefaController(userRepository: UserRepository, val tarefaRepository: Tar
         try {
             val user = readToken(authorization)
             val erros = mutableListOf<String>()
-                if (req == null) erros.add("Tarefa não encontrada")
+                if (req == null)
+                    erros.add("Tarefa não encontrada")
                 if (req.nome.isNullOrEmpty() || req.nome.isNullOrBlank())
                     erros.add("Adicione um nome à tarefa")
                 if (req.descricao.isNullOrEmpty() || req.descricao.isNullOrBlank())
                     erros.add("Adicione uma descrição à tarefa")
-            if (erros.size >0)return ResponseEntity(erros, HttpStatus.BAD_REQUEST)
-            var tarefa = Tarefa(nome = req.nome, descricao = req.descricao, users = user)
+                if (erros.size >0)
+                    return ResponseEntity(erros, HttpStatus.BAD_REQUEST)
+            val tarefa = Tarefa(nome = req.nome, descricao = req.descricao, users = user)
             tarefaRepository.save(tarefa)
         return ResponseEntity(SucessDTO("Tarefa adiciona com sucesso"), HttpStatus.OK)
         }catch (e: Exception){
@@ -75,18 +76,21 @@ class TarefaController(userRepository: UserRepository, val tarefaRepository: Tar
                 this.tarefaRepository.save(newTask)
             return  ResponseEntity(ErrorDTO("Tarefa não encontrada,nova tarefa foi adicionada"),
                     HttpStatus.OK)
-            }else if(id == task?.id && user.id == task?.users?.id) {
+            }else if(id == task.id && user.id == task.users?.id) {
               task.nome = req.nome
               task.descricao = req.descricao
               task.prazo = req.prazo
              this.tarefaRepository.save(task)
              return ResponseEntity(SucessDTO("Tarefa atualizada com sucesso"), HttpStatus.OK)
-         }
+         }else
+             return ResponseEntity(ErrorDTO("Impossivel atualizar, usuário não encontrado."),
+                 HttpStatus.NOT_FOUND)
+
+
         }catch (e:Exception){
             return ResponseEntity(ErrorDTO("Erro de acesso, tente novamente"),
                 HttpStatus.INTERNAL_SERVER_ERROR)
         }
-        return ResponseEntity(ErrorDTO("Tarefa não encontrada para o usuário ${user.nome}"),
-            HttpStatus.INTERNAL_SERVER_ERROR)
+
     }
 }
