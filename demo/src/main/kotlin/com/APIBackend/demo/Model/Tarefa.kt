@@ -2,6 +2,7 @@ package com.APIBackend.demo.Model
 
 import com.fasterxml.jackson.annotation.JsonBackReference
 import org.springframework.stereotype.Component
+import java.time.LocalDate
 import java.util.Date
 import javax.persistence.*
 
@@ -12,7 +13,8 @@ data class Tarefa(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Int = 0,
     var nome: String,
-    var prazo: Date? = Date(),
+    var prazo: String,
+    var cadastro: LocalDate = LocalDate.now(),
     var descricao: String,
     @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)

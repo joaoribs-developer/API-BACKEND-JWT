@@ -8,9 +8,9 @@ import org.springframework.data.repository.findByIdOrNull
 open class BaseController(val userRepository: UserRepository) {
     fun readToken(authorization :String):Users{
     val token =  authorization.substring(7)
-    var userIdString = JWTUtils().getUserID(token)
-        ?:throw IllegalAccessException("Você não tem acesso à este recurso")
-    var user = userRepository.findByIdOrNull(userIdString?.toInt())
+    val userIdString: String = JWTUtils().getUserID(token)
+        ?: throw IllegalAccessException("Você não tem acesso à este recurso")
+    val user = userRepository.findByIdOrNull(userIdString.toInt())
         ?:throw IllegalAccessException("Você não tem acesso à este recurso")
         return user
     }
