@@ -8,6 +8,7 @@ import com.APIBackend.demo.Repository.UserRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.stereotype.Service
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -124,4 +125,15 @@ class TarefaController(userRepository: UserRepository, val tarefaRepository: Tar
 //
 //        return ResponseEntity()
 //    }
+    @GetMapping
+    fun getAll(@RequestHeader("Authorization") authorization: String)
+    : ResponseEntity<Any>{
+        try {
+            val user = readToken(authorization)
+            val task = tarefaRepository.findAll()
+            return ResponseEntity(task, HttpStatus.OK)
+        }catch (e:Exception){
+            return ResponseEntity(e, HttpStatus.NOT_FOUND)
+        }
+    }
 }
