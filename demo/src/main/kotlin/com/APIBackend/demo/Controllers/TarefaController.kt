@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import java.time.LocalDate
-
 @RestController
 @RequestMapping("/api/tarefas")
 class TarefaController(userRepository: UserRepository, val tarefaRepository: TarefaRepository) :
@@ -125,12 +124,13 @@ class TarefaController(userRepository: UserRepository, val tarefaRepository: Tar
 //
 //        return ResponseEntity()
 //    }
+
     @GetMapping
     fun getAll(@RequestHeader("Authorization") authorization: String)
     : ResponseEntity<Any>{
         try {
             val user = readToken(authorization)
-            val task = tarefaRepository.findAll()
+            val task = tarefaRepository.findTarefaByUsers(user.id)
             return ResponseEntity(task, HttpStatus.OK)
         }catch (e:Exception){
             return ResponseEntity(e, HttpStatus.NOT_FOUND)

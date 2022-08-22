@@ -14,7 +14,7 @@ data class Tarefa(
     val id: Int = 0,
     var nome: String,
     var prazo: String,
-    var cadastro: LocalDate = LocalDate.now(),
+    var cadastro: String = LocalDate.now().toString(),
     var descricao: String,
     @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
